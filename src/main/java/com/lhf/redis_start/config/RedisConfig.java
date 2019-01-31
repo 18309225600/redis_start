@@ -68,7 +68,12 @@ public class RedisConfig {
         return cacheManager;
     }
 
+    /**
+     * 工厂
+     * @return
+     */
     @Bean
+    @ConditionalOnMissingBean(RedisConnectionFactory.class)
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
@@ -76,8 +81,12 @@ public class RedisConfig {
         return new JedisConnectionFactory(redisStandaloneConfiguration);
     }
 
-
+    /**
+     * 连接池配置类
+     * @return
+     */
     @Bean
+    @ConditionalOnMissingBean(JedisPoolConfig.class)
     public JedisPoolConfig jedisPoolConfig(){
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         //最大连接数
